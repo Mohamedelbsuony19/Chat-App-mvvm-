@@ -9,7 +9,11 @@ class RoomWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(ChatScreen.routeName, arguments: room);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context).pushNamed(ChatScreen.routeName, arguments: room);
+        });
+
+      //
       },
       child: Container(
         decoration: BoxDecoration(

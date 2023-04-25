@@ -68,14 +68,15 @@ class _ChatScreenState extends BaseState<ChatScreen, ChatViewModel>
             ],
           ),
           body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 32),
             decoration: BoxDecoration(
                 color: const Color(0xFFbfdae0ff),
                 borderRadius: BorderRadius.circular(12)),
             child: Column(
               children: [
-                Expanded(
-                    child: StreamBuilder<QuerySnapshot<Message>>(
+                StreamBuilder<QuerySnapshot<Message>>(
                   stream: viewModel.streamMessage,
                   builder: (_, snapshot) {
                     if (snapshot.hasError) {
@@ -87,36 +88,36 @@ class _ChatScreenState extends BaseState<ChatScreen, ChatViewModel>
                     }
                     var messages =
                         snapshot.data?.docs.map((e) => e.data()).toList();
-                    return ListView.builder(
-                      controller: _controller,
-                      itemBuilder: (context, index) {
-                        return MessageWidget(messages!.elementAt(index));
-                      },
-                      itemCount: messages?.length ?? 0,
+                    return Expanded(
+                      child: ListView.builder(
+                        controller: _controller,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return MessageWidget(messages!.elementAt(index));
+                        },
+                        itemCount: messages?.length ?? 0,
+                      ),
                     );
                   },
-                )),
-                Padding(
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: customTextFormField(
-                            hint: 'Your Maessgae Here',
-                            onChange: (d) {
-                              messageContent = d;
-                            },
-                            suuf: const Icon(Icons.send),
-                            ontabSuffixIcon: () {
-                              viewModel.sendMessage(messageContent);
-                            },
-                            textEditingController: textController,
-                          ),
-                        ),
-                      )
-                    ],
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 90,
+                    padding: const EdgeInsets.all(8.0),
+                    child: customTextFormField(
+                      hint: 'Your Maessgae Here',
+                      onChange: (d) {
+                        messageContent = d;
+                      },
+                      suuf: const Icon(Icons.send),
+                      ontabSuffixIcon: () {
+                        viewModel.sendMessage(messageContent);
+                      },
+                      textEditingController: textController,
+                    ),
                   ),
                 )
               ],

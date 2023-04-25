@@ -32,6 +32,7 @@ class customTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width - 100,
       margin: const EdgeInsets.all(5),
       child: TextFormField(
         maxLines: maxLine,
@@ -43,7 +44,6 @@ class customTextFormField extends StatelessWidget {
         validator: validate,
         decoration: InputDecoration(
           suffixIcon: InkWell(onTap: ontabSuffixIcon, child: suuf),
-          prefixIcon: InkWell(onTap: ontabPrifixIcon, child: prifix),
           enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
               borderRadius: BorderRadius.all(Radius.circular(20))),
